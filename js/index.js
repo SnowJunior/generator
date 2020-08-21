@@ -1,34 +1,36 @@
-// var cc = prompt("Enter your birthday century e.g 19 or 20");
+// define days of the week
+let week = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-// var yy = prompt("Enter your birthday year e.g 99:");
+// male names
+let maleNames = {
+    'Sunday': 'Kwasi',
+    'Monday': 'Kwadwo',
+    'Tuesday': 'Kwabena',
+    'Wednesday': 'Kwaku',
+    'Thursday': 'Yaw',
+    'Friday': 'Kofi',
+    'Saturday': 'Kwame'
+}
 
-// var mm = prompt("Enter your birthday month number e.g 1,2,3:");
+// female names
+let femaleNames = {
+    'Sunday': 'Akosua',
+    'Monday': 'Adwoa',
+    'Tuesday': 'Abenaa',
+    'Wednesday': 'Akua',
+    'Thursday': 'Yaa',
+    'Friday': 'Afua',
+    'Saturday': 'Ama'
+}
 
-// var dd = prompt("Enter your birthday date e.g 21,25,03:");
-
-
-
-// var day = function(cc, yy, mm, dd){
-//     let d = (((cc/4)-2*cc-1) + ((5*yy/4)) + ((26*(mm+1)/10))+Number(dd))%7;
-//     return d;
-// }
-
-// alert(day(cc, yy, mm, dd))
-
-let maleNames=[
-    'Kwasi', 'Kwadwo', 'Kwabena', 'Kwaku', 'Yaw', 'Kofi', 'Kwame' 
-]
-
-let femaleNames=[
-    'Akosua', 'Adwoa', 'Abenaa', 'Akua', 'Yaa', 'Afua', 'Ama' 
-]
+// get details
 let birthday = document.getElementById("birthday")
-
 let gender = document.querySelectorAll('input[name="gender"]')
-
 let submit = document.getElementById("submit")
 
+// handle form submit
 submit.addEventListener("click", function(e){
+    // get values
     let birthdate = birthday.value;
     let selectedGender;
     for (const g of gender) {
@@ -38,25 +40,41 @@ submit.addEventListener("click", function(e){
         }
     }
 
+    // calculate date
     let birthdate_parts = birthdate.split('-')
+    let year = parseInt(birthdate_parts[0])
+    let month = parseInt(birthdate_parts[1])
+    let day = parseInt(birthdate_parts[2])
 
-    let year = birthdate_parts[0]
-    let month = birthdate_parts[1]
-    let date = birthdate_parts[2]
-    let cc = year.slice(0,2)
-    let yy = year.slice(2,4)
-    
-
-    let d =(((cc/4)-2*cc-1) + ((5*yy/4)) + ((26*(month+1)/10)) +date)%7;
-    let ghanaName;
-    if (selectedGender === 'male') {
-        ghanaName = maleNames[parseInt(d)]
-    } else if (selectedGender === 'female') {
-        ghanaName = femaleNames[parseInt(d)]
+    // validate date
+    if (day <= 0 || day > 31) {
+        alert("Enter a valid date");
+        return false;
     }
 
+    //validate months
+    if (month <= 0 || month > 12){
+        alert("Enter a valid month");
+        return false;
+    }
+
+    // create date using Date object
+    // day of the week will be calculated using d.getDay()
+    let d = new Date(year, month - 1, day)
+    let day_of_week = d.getDay()
+    
+    // translate ghana name by gender
+    let ghanaName;
+    if (selectedGender === 'male') {
+        ghanaName = maleNames[week[day_of_week]]
+    } else if (selectedGender === 'female') {
+        ghanaName = femaleNames[week[day_of_week]]
+    }
+
+    // alert name
     alert(ghanaName);
 
+    // prevent form submit
     e.preventDefault()
 
 })
