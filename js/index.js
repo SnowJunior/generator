@@ -40,6 +40,18 @@ submit.addEventListener("click", function(e){
         }
     }
 
+    // validate date
+    if (!birthdate) {
+        alert("Select a date")
+        return false;
+    }
+
+    // validate gender
+    if (selectedGender !== "male" && selectedGender !== "female") {
+        alert("Select a gender")
+        return false;
+    }
+
     // calculate date
     let birthdate_parts = birthdate.split('-')
     let year = parseInt(birthdate_parts[0])
